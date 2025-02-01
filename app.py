@@ -58,10 +58,19 @@ def preprocess_input(country_encoded, city_encoded, season_encoded, month, day, 
 st.title('Climate Change Analysis Dashboard')
 st.write('Visualize and predict temperature trends using deep learning models.')
 
+
+# Mapping of countries to their cities
+country_city_map = {
+    'Canada': ['Calgary', 'Montreal', 'Toronto', 'Vancouver'],
+    'Japan': ['Tokyo'],
+    'Germany': ['Munich', 'Hamburg'],
+    'France': ['Paris']
+}
+
 # Sidebar for user input
 st.sidebar.header('User Input')
-country = st.sidebar.selectbox('Country', ['Canada', 'Japan', 'Germany', 'France'])
-city = st.sidebar.selectbox('City', ['Calgary', 'Montreal', 'Tokyo', 'Paris', 'Munich', 'Hamburg'])
+country = st.sidebar.selectbox('Country', list(country_city_map.keys()))
+city = st.sidebar.selectbox('City', country_city_map[country])
 season = st.sidebar.selectbox('Season', ['Winter', 'Spring', 'Summer', 'Autumn'])  
 month = st.sidebar.slider('Month', 1, 12, 1)
 day = st.sidebar.slider('Day', 1, 31, 1)
@@ -80,7 +89,6 @@ st.write(f'The predicted temperature for {city}, {country} on {month}/{day}/{yea
 
 # Visualize historical data and correlation heatmap
 historical_data = df[['Year', 'Temperature']]
-
 
 fig, ax = plt.subplots()
 sns.lineplot(data=historical_data, x='Year', y='Temperature', marker='o', ax=ax)
